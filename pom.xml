@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.yunbamboos</groupId>
-    <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <groupId>io.github.yunbamboos</groupId>
     <artifactId>yunbamboos</artifactId>
+    <version>1.1</version>
     <name>${project.artifactId}</name>
+    <packaging>jar</packaging>
     <description>interface rest service</description>
     <url>https://github.com/yunbamboos/yunbamboos</url>
 
@@ -38,8 +38,9 @@
     <!-- license -->
     <licenses>
         <license>
-            <name>MIT</name>
-            <url>https://github.com/yunbamboos/yunbamboos.git/master/LICENSE</url>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -67,6 +68,17 @@
             </roles>
         </developer>
     </developers>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
@@ -153,53 +165,128 @@
     </dependencies>
 
     <build>
+        <!-- 配置好每个插件的属性 -->
+        <pluginManagement>
+            <plugins>
+                <!-- 上传到sonatype的插件 -->
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.7</version>
+                    <extensions>false</extensions>
+                    <configuration>
+                        <!-- 这里的id必须要和全局配置中的server一致 -->
+                        <serverId>ossrh</serverId>
+                        <!-- 这个地址，一定要和issue的评论中给出的地址一致！ -->
+                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                        <!-- 如果希望发布后自动执行close和release操作，此处可以调整为true -->
+                        <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
+                <!-- 上传源码的插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <inherited>true</inherited>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <excludeResources>true</excludeResources>
+                        <useDefaultExcludes>true</useDefaultExcludes>
+                    </configuration>
+                </plugin>
+
+                <!-- 8. 生成doc文档的插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <inherited>true</inherited>
+                    <executions>
+                        <execution>
+                            <id>bundle-sources</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <charset>UTF-8</charset><!-- utf-8读取文件 -->
+                        <encoding>UTF-8</encoding><!-- utf-8进行编码代码 -->
+                        <docencoding>UTF-8</docencoding><!-- utf-8进行编码文档 -->
+                        <maxmemory>1024</maxmemory>
+                        <show>protected</show>
+                        <notree>true</notree>
+                        <failOnError>false</failOnError>
+                        <doclint>none</doclint>
+                        <excludePackageNames>net.sf.persism.log*;net.sf.persism.logging.*</excludePackageNames>
+                        <source>17</source>
+                    </configuration>
+                </plugin>
+
+                <!-- 9. 编译构建maven工程的插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!-- 10. 确定要使用哪些插件 -->
         <plugins>
-            <!-- 编译插件 -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
             </plugin>
-            <!-- 生成sources源码包的插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
-                <configuration>
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
-            <!-- Javadoc -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.1</version>
-                <configuration>
-                    <doclint>none</doclint>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- 11. 生成签名，确定使用那个gpg秘钥 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <!-- 必须和配置中的gpg校验id一致 -->
+                                <id>gpg</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
