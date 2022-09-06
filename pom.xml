@@ -5,7 +5,7 @@
 
     <groupId>io.github.yunbamboos</groupId>
     <artifactId>yunbamboos</artifactId>
-    <version>1.1</version>
+    <version>1.1.0</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <description>interface rest service</description>
@@ -173,7 +173,7 @@
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>1.6.7</version>
-                    <extensions>true</extensions>
+                    <extensions>false</extensions>
                     <configuration>
                         <!-- 这里的id必须要和全局配置中的server一致 -->
                         <serverId>ossrh</serverId>
@@ -226,7 +226,7 @@
                     </configuration>
                 </plugin>
 
-                <!-- 9. 编译构建maven工程的插件 -->
+                <!-- 编译构建maven工程的插件 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -239,7 +239,7 @@
             </plugins>
         </pluginManagement>
 
-        <!-- 10. 确定要使用哪些插件 -->
+        <!-- 确定要使用哪些插件 -->
         <plugins>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
@@ -266,7 +266,7 @@
             <id>release</id>
             <build>
                 <plugins>
-                    <!-- 11. 生成签名，确定使用那个gpg秘钥 -->
+                    <!-- 生成签名，确定使用那个gpg秘钥 -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
