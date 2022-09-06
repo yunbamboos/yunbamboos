@@ -173,14 +173,14 @@
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>1.6.7</version>
-                    <extensions>false</extensions>
+                    <extensions>true</extensions>
                     <configuration>
                         <!-- 这里的id必须要和全局配置中的server一致 -->
                         <serverId>ossrh</serverId>
                         <!-- 这个地址，一定要和issue的评论中给出的地址一致！ -->
                         <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                         <!-- 如果希望发布后自动执行close和release操作，此处可以调整为true -->
-                        <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     </configuration>
                 </plugin>
                 <!-- 上传源码的插件 -->
@@ -191,24 +191,19 @@
                     <inherited>true</inherited>
                     <executions>
                         <execution>
-                            <id>attach-sources</id>
+                            <id>package</id>
                             <goals>
                                 <goal>jar</goal>
                             </goals>
                         </execution>
                     </executions>
-                    <configuration>
-                        <excludeResources>true</excludeResources>
-                        <useDefaultExcludes>true</useDefaultExcludes>
-                    </configuration>
                 </plugin>
 
-                <!-- 8. 生成doc文档的插件 -->
+                <!-- 生成doc文档的插件 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>3.0.0</version>
-                    <inherited>true</inherited>
                     <executions>
                         <execution>
                             <id>bundle-sources</id>
@@ -219,16 +214,15 @@
                         </execution>
                     </executions>
                     <configuration>
+                        <source>17</source>
                         <charset>UTF-8</charset><!-- utf-8读取文件 -->
                         <encoding>UTF-8</encoding><!-- utf-8进行编码代码 -->
                         <docencoding>UTF-8</docencoding><!-- utf-8进行编码文档 -->
                         <maxmemory>1024</maxmemory>
-                        <show>protected</show>
+                        <show>public</show>
                         <notree>true</notree>
                         <failOnError>false</failOnError>
                         <doclint>none</doclint>
-                        <excludePackageNames>net.sf.persism.log*;net.sf.persism.logging.*</excludePackageNames>
-                        <source>17</source>
                     </configuration>
                 </plugin>
 
@@ -259,6 +253,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
