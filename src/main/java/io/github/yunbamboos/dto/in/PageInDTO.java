@@ -17,8 +17,8 @@ public class PageInDTO extends InDTO {
     @Override
     public void decode(JSONObject json) {
         super.decode(json);
-        this.pageNo = this.getInteger(json, "page_no", 1);
-        this.pageSize = this.getInteger(json, "page_size", 10);
+        this.pageNo = this.getIntValue(json, "page_no", 1);
+        this.pageSize = this.getIntValue(json, "page_size", 10);
     }
 
     public int getPageNo() {

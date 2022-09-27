@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserMapper">
+    
+    <resultMap type="com.model.User" id="UserMap">
+        <result property="userId" column="user_id"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="password" column="password"/>
+        <result property="roleId" column="role_id"/>
+        <result property="imageId" column="image_id"/>
+        <result property="userState" column="user_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="doubanUserId" column="douban_user_id"/>
+    </resultMap>
+    
+    <!-- 通过主键查询单条数据 -->
+    <select id="queryByPrimaryKey" resultMap="UserMap">
+        select
+            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+        from user
+        where 
+             user_id = #{user_id}
+    </select>
+    
+    <!--通过条件分页查询指定行数据-->
+    <select id="queryByPage" resultMap="UserMap">
+        select
+            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+        from user
+        <where>
+            <if test="page.conditions.user_id != null and page.conditions.user_id != ''">
+                and user_id = #{page.conditions.user_id}
+            </if>
+            <if test="page.conditions.nick_name != null and page.conditions.nick_name != ''">
+                and nick_name = #{page.conditions.nick_name}
+            </if>
+            <if test="page.conditions.login_name != null and page.conditions.login_name != ''">
+                and login_name = #{page.conditions.login_name}
+            </if>
+            <if test="page.conditions.password != null and page.conditions.password != ''">
+                and password = #{page.conditions.password}
+            </if>
+            <if test="page.conditions.role_id != null and page.conditions.role_id != ''">
+                and role_id = #{page.conditions.role_id}
+            </if>
+            <if test="page.conditions.image_id != null and page.conditions.image_id != ''">
+                and image_id = #{page.conditions.image_id}
+            </if>
+            <if test="page.conditions.user_state != null and page.conditions.user_state != ''">
+                and user_state = #{page.conditions.user_state}
+            </if>
+            <if test="page.conditions.create_time != null and page.conditions.create_time != ''">
+                and create_time = #{page.conditions.create_time}
+            </if>
+            <if test="page.conditions.douban_user_id != null and page.conditions.douban_user_id != ''">
+                and douban_user_id = #{page.conditions.douban_user_id}
+            </if>
+        </where>
+        order by create_time desc
+        limit #{page.offset}, #{page.pageSize}
+    </select>
+    
+    <!--通过条件统计总行数-->
+    <select id="countByPage" resultType="java.lang.Integer">
+        select count(1)
+        from user
+        <where>
+            <if test="page.conditions.user_id != null and page.conditions.user_id != ''">
+                and user_id = #{page.conditions.user_id}
+            </if>
+            <if test="page.conditions.nick_name != null and page.conditions.nick_name != ''">
+                and nick_name = #{page.conditions.nick_name}
+            </if>
+            <if test="page.conditions.login_name != null and page.conditions.login_name != ''">
+                and login_name = #{page.conditions.login_name}
+            </if>
+            <if test="page.conditions.password != null and page.conditions.password != ''">
+                and password = #{page.conditions.password}
+            </if>
+            <if test="page.conditions.role_id != null and page.conditions.role_id != ''">
+                and role_id = #{page.conditions.role_id}
+            </if>
+            <if test="page.conditions.image_id != null and page.conditions.image_id != ''">
+                and image_id = #{page.conditions.image_id}
+            </if>
+            <if test="page.conditions.user_state != null and page.conditions.user_state != ''">
+                and user_state = #{page.conditions.user_state}
+            </if>
+            <if test="page.conditions.create_time != null and page.conditions.create_time != ''">
+                and create_time = #{page.conditions.create_time}
+            </if>
+            <if test="page.conditions.douban_user_id != null and page.conditions.douban_user_id != ''">
+                and douban_user_id = #{page.conditions.douban_user_id}
+            </if>
+        </where>
+    </select>
+    
+    <!--新增数据-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        insert into user(user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id)
+        values (#{userId}, #{nickName}, #{loginName}, #{password}, #{roleId}, #{imageId}, #{userState}, #{createTime}, #{doubanUserId})
+    </insert>
+    
+    <!-- 更新数据 -->
+    <update id="update">
+        update user
+        <set>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="roleId != null and roleId != ''">
+                role_id = #{roleId},
+            </if>
+            <if test="imageId != null and imageId != ''">
+                image_id = #{imageId},
+            </if>
+            <if test="userState != null and userState != ''">
+                user_state = #{userState},
+            </if>
+        </set>
+        where 
+             user_id = #{userId}
+    </update>
+    
+    <!--通过主键删除-->
+    <delete id="deleteByPrimaryKey">
+        delete from user where user_id = #{user_id}
+    </delete>
+
+    <!--登录调用-->
+    <select id="queryByLoginNameAndPassword" resultMap="UserMap">
+        select
+            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+        from user
+        where
+            login_name = #{login_name} and password = #{password}
+    </select>
+
+    <!--登录调用-->
+    <select id="queryByLoginName" resultMap="UserMap">
+        select
+            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+        from user
+        where
+            login_name = #{login_name}
+    </select>
+
+    <!--查询最大的用户ID-->
+    <select id="queryMaxUserId" resultType="java.lang.Integer">
+        select
+            max(user_id)
+        from user
+    </select>
+
+    <!--通过豆瓣用户ID(md5)查询用户信息-->
+    <select id="queryByDouBanUserID" resultMap="UserMap">
+        select
+            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+        from user
+        where
+            douban_user_id = #{douban_user_id}
+    </select>
+
+    <select id="queryUserIdByDouBanUserID" resultType="java.lang.Integer">
+        select
+            user_id
+        from user
+        where
+            douban_user_id = #{douban_user_id}
+    </select>
+
+    <select id="queryUserIdList" resultMap="UserMap">
+        select
+            user_id, douban_user_id
+        from user
+        where
+        <![CDATA[
+            user_id >= #{min_user_id} and user_id <=#{max_user_id}
+        ]]>
+    </select>
+
+</mapper>

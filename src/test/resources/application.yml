@@ -1,0 +1,31 @@
+server:
+  port: 10001 # https 端口    netstat -ano|findstr "443" 检测端口是否被占用
+  servlet:
+    context-path:
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      maxFileSize: 100MB
+      maxRequestSize: 120MB
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/movie_cf_rec?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 20
+      maximum-pool-size: 60
+      auto-commit: on
+      idle-timeout: 30000
+      pool-name: DatebookHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  mvc:
+    servlet:
+      load-on-startup: 1
+  thymeleaf:
+    cache: false
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
