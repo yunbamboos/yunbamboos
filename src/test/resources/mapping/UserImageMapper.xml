@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserImageMapper">
+
+    <resultMap type="com.model.UserImage" id="result">
+        <id property="userId" column="user_id"/>
+        <result property="image" column="image"/>
+    </resultMap>
+
+    <parameterMap type="com.model.UserImage" id="parameter">
+        <parameter property="userId" resultMap="result"/>
+        <parameter property="image" resultMap="result"/>
+    </parameterMap>
+
+    <select id="queryByUserId" resultMap="result">
+        select user_id,
+               image
+        from user_image
+        where user_id = #{user_id}
+    </select>
+
+</mapper>
