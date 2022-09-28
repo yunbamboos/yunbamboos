@@ -57,7 +57,30 @@ public class User implements Model {
     
     @Override
     public void decode(JSONObject json){
-        // empty
+        if(json.containsKey("user_id")) this.userId = json.getInteger("user_id");
+        if(json.containsKey("nick_name")) this.nickName = json.getString("nick_name");
+        if(json.containsKey("login_name")) this.loginName = json.getString("login_name");
+        if(json.containsKey("password")) this.password = json.getString("password");
+        if(json.containsKey("role_id")) {
+            this.roleId = json.getInteger("role_id");
+        } else {
+            this.roleId = 1;
+        }
+        if(json.containsKey("image_id")) {
+            this.imageId = json.getInteger("image_id");
+        } else {
+            this.imageId = 0;
+        }
+        if(json.containsKey("user_state")) {
+            this.userState = json.getInteger("user_state");
+        } else {
+            this.userState = 1;
+        }
+        if(json.containsKey("create_time")) {
+            this.createTime = DateUtils.stringToLocalDateTime(json.getString("create_time"), DateConst.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS_SSS);
+        } else {
+            this.createTime = LocalDateTime.now();
+        }
 	}
 
     /** 用户ID(user_id) */

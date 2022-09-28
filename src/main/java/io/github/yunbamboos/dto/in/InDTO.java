@@ -13,6 +13,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 public abstract class InDTO implements DTO {
 
+    private static final String ERROR_REQUIRED = "required %s is empty";
+
     @Override
     public void decode(JSONObject json) {
         // empty
@@ -29,7 +31,7 @@ public abstract class InDTO implements DTO {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     /**JSONObject*/
@@ -37,7 +39,7 @@ public abstract class InDTO implements DTO {
         if(json.containsKey(key)){
             return json.getJSONObject(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     /**JSONArray*/
@@ -45,7 +47,7 @@ public abstract class InDTO implements DTO {
         if(json.containsKey(key)){
             return json.getJSONArray(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     /**String*/
@@ -53,7 +55,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getString(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected String getString(JSONObject json, String key, String defaultValue) {
@@ -72,7 +74,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getInteger(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected Integer getInteger(JSONObject json, String key, Integer defaultValue) {
@@ -91,7 +93,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getIntValue(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected int getIntValue(JSONObject json, String key, int defaultValue) {
@@ -110,7 +112,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getLong(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected Long getLong(JSONObject json, String key, Long defaultValue) {
@@ -129,7 +131,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getLongValue(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected long getLongValue(JSONObject json, String key, long defaultValue) {
@@ -148,7 +150,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getFloat(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected Float getFloat(JSONObject json, String key, Float defaultValue) {
@@ -167,7 +169,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getFloatValue(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected float getFloatValue(JSONObject json, String key, float defaultValue) {
@@ -186,7 +188,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getBoolean(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected Boolean getBoolean(JSONObject json, String key, Boolean defaultValue) {
@@ -205,7 +207,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getBooleanValue(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected boolean getBooleanValue(JSONObject json, String key, boolean defaultValue) {
@@ -224,7 +226,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getDouble(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected Double getDouble(JSONObject json, String key, Double defaultValue) {
@@ -243,7 +245,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getDoubleValue(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected double getDoubleValue(JSONObject json, String key, double defaultValue) {
@@ -262,7 +264,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getShort(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected Short getShort(JSONObject json, String key, Short defaultValue) {
@@ -281,7 +283,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getShortValue(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected short getShortValue(JSONObject json, String key, short defaultValue) {
@@ -300,7 +302,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getByte(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected Byte getByte(JSONObject json, String key, Byte defaultValue) {
@@ -319,7 +321,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getByteValue(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
     protected byte getByteValue(JSONObject json, String key, byte defaultValue) {
@@ -337,7 +339,7 @@ public abstract class InDTO implements DTO {
         if (json.containsKey(key)) {
             return json.getBytes(key);
         }
-        throw new AppException("required " + key + " is empty");
+        throw new AppException(String.format(ERROR_REQUIRED, key));
     }
 
 

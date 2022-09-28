@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.yunbamboos.Model;
 import io.github.yunbamboos.rest.anno.ParamDesc;
 import io.github.yunbamboos.rest.anno.ParamType;
+import io.github.yunbamboos.util.Base64Utils;
 
 
 /**
@@ -22,7 +23,7 @@ public class UserImage implements Model {
     public JSONObject encode() {
         JSONObject json = new JSONObject();
         json.put("user_id", userId);
-        json.put("image", image);
+        json.put("image", Base64Utils.encode(image));
         return json;
     }
 

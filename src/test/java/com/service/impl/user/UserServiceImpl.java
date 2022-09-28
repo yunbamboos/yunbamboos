@@ -79,9 +79,11 @@ public class UserServiceImpl implements IUserService {
             name = "添加用户接口"
     )
     @Override
-    public AddUserOutDTO add(AddUserInDTO in){
-
-        return new AddUserOutDTO();
+    public AddUserOutDTO add(AddUserInDTO in) {
+        AddUserOutDTO out = new AddUserOutDTO();
+        userMapper.insert(in.getUser());
+        out.setUserId(in.getUser().getUserId());
+        return out;
     }
 
     @RestServiceType(
@@ -92,7 +94,8 @@ public class UserServiceImpl implements IUserService {
             name = "更新用户信息"
     )
     @Override
-    public UpdateUserOutDTO update(UpdateUserInDTO in){
+    public UpdateUserOutDTO update(UpdateUserInDTO in) {
+        userMapper.update(in.getUser());
         return new UpdateUserOutDTO();
     }
 
@@ -104,7 +107,7 @@ public class UserServiceImpl implements IUserService {
             name = "删除用户接口"
     )
     @Override
-    public DelUserOutDTO del(DelUserInDTO in){
+    public DelUserOutDTO del(DelUserInDTO in) {
         return new DelUserOutDTO();
     }
 }
