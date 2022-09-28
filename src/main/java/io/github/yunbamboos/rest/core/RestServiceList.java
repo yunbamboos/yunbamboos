@@ -22,7 +22,7 @@ public class RestServiceList implements IRestServiceList {
 
     @Override
     public void add(IRestService restService) {
-        log.info("add rest service url:{}", restService.getUrl());
+        log.info("add rest service {}({})", restService.getName(), restService.getUrl());
         String url = restService.getUrl();
         if (this.restServiceMap.containsKey(url)) {
             throw new AppException("rest service[" + url + "] already exists");

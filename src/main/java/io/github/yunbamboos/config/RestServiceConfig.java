@@ -51,9 +51,10 @@ public class RestServiceConfig {
     @ConditionalOnMissingBean({IFilterList.class})
     public IFilterList createFilterList(List<IFilter> filters) {
         Collections.sort(filters);
-        if (log.isDebugEnabled()) {
-            for (IFilter filter:filters){
-                log.info("filters: {}", filter);
+        if (log.isInfoEnabled()) {
+            int i = 1;
+            for (IFilter filter : filters) {
+                log.info("filters({}): {}", i++, filter);
             }
         }
         return new FilterList(filters);
@@ -176,8 +177,8 @@ public class RestServiceConfig {
     @ConditionalOnMissingBean({IRestServiceFilterList.class})
     public IRestServiceFilterList createRestServiceFilterList(List<IRestServiceFilter> filters) {
         Collections.sort(filters);
-        if (log.isDebugEnabled()) {
-            log.info("rest service filters: {}", filters);
+        if (log.isInfoEnabled()) {
+            log.info("rest service filters({}): {}", filters.size(), filters);
         }
         return new RestServiceFilterList(filters);
     }
