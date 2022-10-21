@@ -1,9 +1,16 @@
 package io.github.yunbamboos.exception;
 
+import java.text.MessageFormat;
+
 /**
  * 自定义异常类
  */
 public class AppException extends RuntimeException {
+
+    public static void error(String pattern, Object ... arguments){
+        throw new AppException(MessageFormat.format(pattern,arguments));
+    }
+
     /**
      * 程序异常编码
      */

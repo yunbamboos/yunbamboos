@@ -22,12 +22,14 @@ import io.github.yunbamboos.rest.filter.IRestServiceFilterHandler;
 import io.github.yunbamboos.rest.filter.IRestServiceFilterList;
 import io.github.yunbamboos.rest.filter.InvokeBeanRestServiceFilter;
 import io.github.yunbamboos.rest.filter.RestServiceFilterList;
+import io.github.yunbamboos.transaction.RestServiceTransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +39,7 @@ import java.util.List;
  * RestService配置
  */
 @Configuration
+@Order(1)
 public class RestServiceConfig {
 
     private static final Logger log = LoggerFactory.getLogger(RestServiceConfig.class);
@@ -143,8 +146,10 @@ public class RestServiceConfig {
      * @return 返回调用RestService过滤器实例{@link InvokeRestServiceFilter}
      */
     @Bean
-    public IFilter createInvokeRestServiceFilter(IRestServiceFilterHandler restServiceFilterHandler, IRestServiceFilterList restServiceFilterList) {
-        return new InvokeRestServiceFilter(restServiceFilterHandler, restServiceFilterList);
+    public IFilter createInvokeRestServiceFilter(IRestServiceFilterHandler restServiceFilterHandler,
+                                                 IRestServiceFilterList restServiceFilterList,
+                                                 RestServiceTransactionManager restServiceTransactionManager) {
+        return new InvokeRestServiceFilter(restServiceFilterHandler, restServiceFilterList, restServiceTransactionManager);
     }
 
     /**

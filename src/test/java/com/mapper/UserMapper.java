@@ -80,23 +80,31 @@ public interface UserMapper {
 
     /**
      * 查询最大的用户ID
+     *
      * @return 最后生成的用户ID
      */
     int queryMaxUserId();
 
     /**
      * 通过豆瓣用户ID(md5)查询用户信息
+     *
      * @param douBanUserId 豆瓣用户ID
      */
     Optional<User> queryByDouBanUserID(@Param("douban_user_id") String douBanUserId);
 
     /**
      * 通过豆瓣用户ID(md5)查询用户信息
-     * */
+     */
     Integer queryUserIdByDouBanUserID(@Param("douban_user_id") String douBanUserId);
 
     /**
      * 查询范围内的ID列表
      */
     List<User> queryUserIdList(@Param("min_user_id") int minUserId, @Param("max_user_id") int maxUserId);
+
+    /**
+     * 判断login_name是否存在
+     */
+    boolean existLoginName(@Param("login_name") String loginName);
+
 }

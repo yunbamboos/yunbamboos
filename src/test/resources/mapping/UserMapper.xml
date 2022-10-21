@@ -183,4 +183,11 @@
         ]]>
     </select>
 
+    <select id="existLoginName" resultType="java.lang.Boolean">
+        select
+            count(1)
+        from user
+        where login_name = #{login_name}
+    </select>
+
 </mapper>

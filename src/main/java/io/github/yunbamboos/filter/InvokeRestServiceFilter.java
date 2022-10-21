@@ -10,6 +10,7 @@ import io.github.yunbamboos.rest.filter.IRestServiceFilter;
 import io.github.yunbamboos.rest.filter.IRestServiceFilterHandler;
 import io.github.yunbamboos.rest.filter.IRestServiceFilterList;
 import io.github.yunbamboos.rest.filter.RestServiceFilterExchange;
+import io.github.yunbamboos.transaction.RestServiceTransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,8 @@ import static io.github.yunbamboos.constant.FilterExchangeConst.REST_SERVICE_ATT
  * 调用RestService过滤器
  */
 public record InvokeRestServiceFilter(IRestServiceFilterHandler restServiceFilterHandler,
-                                      IRestServiceFilterList restServiceFilterList) implements IFilter {
+                                      IRestServiceFilterList restServiceFilterList,
+                                      RestServiceTransactionManager restServiceTransactionManager) implements IFilter {
 
     private static final Logger log = LoggerFactory.getLogger(IFilter.class);
 
@@ -38,18 +40,23 @@ public record InvokeRestServiceFilter(IRestServiceFilterHandler restServiceFilte
             RestServiceFilterExchange restServiceFilterExchange = new DefaultRestServiceFilterExchange();
             restServiceFilterExchange.in(in);
             restServiceFilterExchange.restService(restService);
+            restServiceTransactionManager.begin(); // 开启事务
             List<IRestServiceFilter> filters = restServiceFilterList.filters(restService.getFilters());
             restServiceFilterHandler.handle(restServiceFilterExchange, filters);
             exchange.getAttributes().put(OUT_DTO_ATTR, restServiceFilterExchange.out());
             chain.filter(exchange);
+            restServiceTransactionManager.commit(); // 提交事务
         } catch (Exception e) {
             log.error("invoke error", e);
+            restServiceTransactionManager.rollback(); // 事务回滚
             if (e instanceof AppException ae) {
                 exchange.getAttributes().put(OUT_DTO_ATTR, new ErrorOutDTO(ae));
             } else {
                 exchange.getAttributes().put(OUT_DTO_ATTR, new ErrorOutDTO(e));
             }
             chain.filter(exchange);
+        } finally {
+            restServiceTransactionManager.release();
         }
     }
 

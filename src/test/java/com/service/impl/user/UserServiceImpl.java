@@ -81,7 +81,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public AddUserOutDTO add(AddUserInDTO in) {
         AddUserOutDTO out = new AddUserOutDTO();
+        if (userMapper.existLoginName(in.getUser().getLoginName())) {
+            AppException.error("该登录账户({0})已存在", in.getUser().getLoginName());
+        }
         userMapper.insert(in.getUser());
+        int i=10/0;
         out.setUserId(in.getUser().getUserId());
         return out;
     }

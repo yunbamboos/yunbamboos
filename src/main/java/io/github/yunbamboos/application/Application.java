@@ -1,6 +1,7 @@
 package io.github.yunbamboos.application;
 
 import io.github.yunbamboos.config.RestServiceConfig;
+import io.github.yunbamboos.config.TransactionManagerConfig;
 import io.github.yunbamboos.listener.AppCloseListener;
 import io.github.yunbamboos.listener.AppStartListener;
 import io.github.yunbamboos.listener.PrintSystemEnvironmentListener;
@@ -35,6 +36,7 @@ import java.util.List;
 @Import({
         SpringBeanUtils.class, // 获取bean工具
         RestServiceConfig.class, // 引入rest服务配置
+        TransactionManagerConfig.class
 })
 @ComponentScan(basePackageClasses = {RestDispatcherServlet.class})
 public class Application {
