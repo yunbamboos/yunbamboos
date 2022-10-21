@@ -2,10 +2,7 @@ package io.github.yunbamboos.application;
 
 import io.github.yunbamboos.config.RestServiceConfig;
 import io.github.yunbamboos.config.TransactionManagerConfig;
-import io.github.yunbamboos.listener.AppCloseListener;
-import io.github.yunbamboos.listener.AppStartListener;
-import io.github.yunbamboos.listener.PrintSystemEnvironmentListener;
-import io.github.yunbamboos.listener.ScannerRestServerListener;
+import io.github.yunbamboos.listener.*;
 import io.github.yunbamboos.rest.servlet.RestDispatcherServlet;
 import io.github.yunbamboos.util.CollectionUtils;
 import io.github.yunbamboos.util.SpringBeanUtils;
@@ -73,9 +70,11 @@ public class Application {
         sources[primarySources.length] = Application.class;
         SpringApplication app = new SpringApplication(sources);
         this.addStartListener(event -> TokenUtils.createToken(new DefaultClaims(), System.currentTimeMillis())); // 初始化token 模块
-        //扫描 restService 的所有服务
+        // 扫描 restService 的所有服务
         this.addStartListener(new ScannerRestServerListener());
         this.addStartListener(new PrintSystemEnvironmentListener());
+        // 读取事务配置注解 顺序读取 读取到配置注解 结束
+        this.addStartListener(new ReadTransactionAnnotationListener(primarySources));
         app.addListeners(new StartListener(startListenerList));
         app.addListeners(new CloseListener(closeListenerList));
         this.context = app.run(args);
