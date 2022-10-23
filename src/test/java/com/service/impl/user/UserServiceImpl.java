@@ -18,6 +18,7 @@ import io.github.yunbamboos.model.Page;
 import io.github.yunbamboos.rest.anno.RestServiceType;
 import io.github.yunbamboos.rest.anno.Tag;
 import io.github.yunbamboos.session.SessionContext;
+import io.github.yunbamboos.transaction.Transaction;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -76,7 +77,8 @@ public class UserServiceImpl implements IUserService {
             url = "/user/add",
             in = AddUserInDTO.class,
             out = AddUserOutDTO.class,
-            name = "添加用户接口"
+            name = "添加用户接口",
+            transaction = Transaction.modify
     )
     @Override
     public AddUserOutDTO add(AddUserInDTO in) {
@@ -85,7 +87,6 @@ public class UserServiceImpl implements IUserService {
             AppException.error("该登录账户({0})已存在", in.getUser().getLoginName());
         }
         userMapper.insert(in.getUser());
-        int i=10/0;
         out.setUserId(in.getUser().getUserId());
         return out;
     }

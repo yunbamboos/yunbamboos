@@ -6,6 +6,7 @@ import io.github.yunbamboos.rest.IRestService;
 import io.github.yunbamboos.rest.filter.IRestServiceFilter;
 import io.github.yunbamboos.rest.proxy.CreateInvokeService;
 import io.github.yunbamboos.rest.proxy.InvokeService;
+import io.github.yunbamboos.transaction.Transaction;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class RestService implements IRestService {
     String name;
     boolean authentication;
     List<Class<? extends IRestServiceFilter>> filters;
+    Transaction transaction;
     Object bean;
     Class<?> interfaceClass;
     Class<?> serviceClass;
@@ -59,6 +61,11 @@ public class RestService implements IRestService {
     @Override
     public List<Class<? extends IRestServiceFilter>> getFilters() {
         return this.filters;
+    }
+
+    @Override
+    public Transaction transaction(){
+        return transaction;
     }
 
     @Override

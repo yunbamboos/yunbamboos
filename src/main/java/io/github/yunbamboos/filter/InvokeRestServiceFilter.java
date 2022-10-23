@@ -31,24 +31,24 @@ public record InvokeRestServiceFilter(IRestServiceFilterHandler restServiceFilte
 
     @Override
     public void filter(FilterExchange exchange, FilterChain chain) {
+        IRestService restService = exchange.getAttribute(REST_SERVICE_ATTR);
+        if (restService == null) {
+            throw new AppException("load rest service error");
+        }
         try {
-            IRestService restService = exchange.getAttribute(REST_SERVICE_ATTR);
-            if (restService == null) {
-                throw new AppException("load rest service error");
-            }
             InDTO in = exchange.getAttribute(IN_DTO_ATTR);
             RestServiceFilterExchange restServiceFilterExchange = new DefaultRestServiceFilterExchange();
             restServiceFilterExchange.in(in);
             restServiceFilterExchange.restService(restService);
-            restServiceTransactionManager.begin(); // 开启事务
+            restServiceTransactionManager.begin(restService); // 开启事务
             List<IRestServiceFilter> filters = restServiceFilterList.filters(restService.getFilters());
             restServiceFilterHandler.handle(restServiceFilterExchange, filters);
             exchange.getAttributes().put(OUT_DTO_ATTR, restServiceFilterExchange.out());
             chain.filter(exchange);
-            restServiceTransactionManager.commit(); // 提交事务
+            restServiceTransactionManager.commit(restService); // 提交事务
         } catch (Exception e) {
             log.error("invoke error", e);
-            restServiceTransactionManager.rollback(); // 事务回滚
+            restServiceTransactionManager.rollback(restService); // 事务回滚
             if (e instanceof AppException ae) {
                 exchange.getAttributes().put(OUT_DTO_ATTR, new ErrorOutDTO(ae));
             } else {
@@ -56,7 +56,7 @@ public record InvokeRestServiceFilter(IRestServiceFilterHandler restServiceFilte
             }
             chain.filter(exchange);
         } finally {
-            restServiceTransactionManager.release();
+            restServiceTransactionManager.release(restService);
         }
     }
 

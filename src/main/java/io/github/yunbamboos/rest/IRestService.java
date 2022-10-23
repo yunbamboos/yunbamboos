@@ -4,6 +4,7 @@ import io.github.yunbamboos.dto.in.InDTO;
 import io.github.yunbamboos.dto.out.OutDTO;
 import io.github.yunbamboos.rest.filter.IRestServiceFilter;
 import io.github.yunbamboos.rest.proxy.InvokeService;
+import io.github.yunbamboos.transaction.Transaction;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public interface IRestService {
 
     List<Class<? extends IRestServiceFilter>> getFilters();
 
+    Transaction transaction();
+
     Object getBean();
 
     void createInvokeService();
@@ -49,6 +52,8 @@ public interface IRestService {
         Builder authentication(boolean authentication);
 
         Builder filters(List<Class<? extends IRestServiceFilter>> filters);
+
+        Builder transaction(Transaction transaction);
 
         Builder bean(Object bean);
 

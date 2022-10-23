@@ -73,8 +73,6 @@ public class Application {
         // 扫描 restService 的所有服务
         this.addStartListener(new ScannerRestServerListener());
         this.addStartListener(new PrintSystemEnvironmentListener());
-        // 读取事务配置注解 顺序读取 读取到配置注解 结束
-        this.addStartListener(new ReadTransactionAnnotationListener(primarySources));
         app.addListeners(new StartListener(startListenerList));
         app.addListeners(new CloseListener(closeListenerList));
         this.context = app.run(args);

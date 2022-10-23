@@ -1,16 +1,18 @@
 package io.github.yunbamboos.transaction;
 
 
+import io.github.yunbamboos.rest.IRestService;
+
 /**
  * RestService 事务管理
  * */
 public interface RestServiceTransactionManager {
 
-    void begin();
+    void begin(IRestService restService);
 
-    void commit();
+    void commit(IRestService restService);
 
-    void rollback();
+    void rollback(IRestService restService);
 
-    void release();
+    void release(IRestService restService);
 }

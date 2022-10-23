@@ -6,6 +6,7 @@ import io.github.yunbamboos.rest.anno.RestServiceType;
 import io.github.yunbamboos.rest.core.RestServiceBuilder;
 import io.github.yunbamboos.rest.filter.IRestServiceFilter;
 import io.github.yunbamboos.rest.filter.InvokeBeanRestServiceFilter;
+import io.github.yunbamboos.transaction.TransactionRestServiceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -45,6 +46,10 @@ public class RestServiceScanner {
      */
     private final IRestServiceList restServiceList;
     /**
+     * 事务管理
+     */
+    private final TransactionRestServiceConfig transactionRestServiceConfig;
+    /**
      * 扫描包路径
      */
     private final String[] pages;
@@ -53,9 +58,13 @@ public class RestServiceScanner {
      */
     private final Set<Class<?>> interfaces;
 
-    public RestServiceScanner(ApplicationContext applicationContext, IRestServiceList restServiceList, String[] pages) {
+    public RestServiceScanner(ApplicationContext applicationContext,
+                              IRestServiceList restServiceList,
+                              TransactionRestServiceConfig transactionRestServiceConfig,
+                              String[] pages) {
         this.applicationContext = applicationContext;
         this.restServiceList = restServiceList;
+        this.transactionRestServiceConfig = transactionRestServiceConfig;
         this.pages = pages;
         this.interfaces = new LinkedHashSet<>(300);
     }
@@ -138,12 +147,14 @@ public class RestServiceScanner {
                     .name(restServiceType.name())
                     .authentication(restServiceType.authentication())
                     .filters(arrayToList(restServiceType.filters()))
+                    .transaction(restServiceType.transaction())
                     .bean(bean)
                     .interfaceClass(interfaceClass)
                     .serviceClass(serviceClass)
                     .methodName(method.getName())
                     .build();
             restServiceList.add(restService);
+            transactionRestServiceConfig.add(restService);
         }
     }
 

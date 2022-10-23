@@ -3,6 +3,7 @@ package io.github.yunbamboos.rest.anno;
 import io.github.yunbamboos.dto.in.InDTO;
 import io.github.yunbamboos.dto.out.OutDTO;
 import io.github.yunbamboos.rest.filter.IRestServiceFilter;
+import io.github.yunbamboos.transaction.Transaction;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.lang.annotation.Documented;
@@ -57,5 +58,9 @@ public @interface RestServiceType {
      */
     Class<? extends IRestServiceFilter>[] filters() default {};
 
+    /**
+     * 开启事务
+     * */
+    Transaction transaction() default Transaction.empty;
 
 }

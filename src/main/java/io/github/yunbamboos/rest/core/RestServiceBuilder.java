@@ -4,6 +4,7 @@ import io.github.yunbamboos.dto.in.InDTO;
 import io.github.yunbamboos.dto.out.OutDTO;
 import io.github.yunbamboos.rest.IRestService;
 import io.github.yunbamboos.rest.filter.IRestServiceFilter;
+import io.github.yunbamboos.transaction.Transaction;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class RestServiceBuilder implements IRestService.Builder {
     private String name;
     private boolean authentication;
     private List<Class<? extends IRestServiceFilter>> filters;
+    private Transaction transaction;
     private Object bean;
     private Class<?> interfaceClass;
     private Class<?> serviceClass;
@@ -65,6 +67,12 @@ public class RestServiceBuilder implements IRestService.Builder {
     }
 
     @Override
+    public IRestService.Builder transaction(Transaction transaction){
+        this.transaction = transaction;
+        return this;
+    }
+
+    @Override
     public IRestService.Builder bean(Object bean) {
         this.bean = bean;
         return this;
@@ -98,6 +106,7 @@ public class RestServiceBuilder implements IRestService.Builder {
         restService.name = name;
         restService.authentication = authentication;
         restService.filters = filters;
+        restService.transaction = transaction;
         restService.bean = bean;
         restService.interfaceClass = interfaceClass;
         restService.serviceClass = serviceClass;

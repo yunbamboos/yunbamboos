@@ -1,13 +1,15 @@
 package io.github.yunbamboos.config;
 
-import io.github.yunbamboos.transaction.JdbcRestServiceTransactionManager;
+import io.github.yunbamboos.transaction.DefaultRestServiceTransactionManager;
+import io.github.yunbamboos.transaction.DefaultTransactionRestServiceConfig;
 import io.github.yunbamboos.transaction.RestServiceTransactionManager;
+import io.github.yunbamboos.transaction.TransactionRestServiceConfig;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.annotation.Resource;
 
@@ -20,11 +22,17 @@ public class TransactionManagerConfig {
     private DataSourceTransactionManager dataSourceTransactionManager;
 
     @Resource
-    private TransactionDefinition transactionDefinition;
+    private DefaultTransactionDefinition transactionDefinition;
 
     @Bean
-    public RestServiceTransactionManager createRestServiceTransactionManager(){
-        // TODO 读取事务配置
-        return new JdbcRestServiceTransactionManager(dataSourceTransactionManager, transactionDefinition);
+    public TransactionRestServiceConfig createTransactionRestServiceConfig() {
+        return new DefaultTransactionRestServiceConfig(true);
+    }
+
+    @Bean
+    public RestServiceTransactionManager createRestServiceTransactionManager(TransactionRestServiceConfig transactionRestServiceConfig) {
+        return new DefaultRestServiceTransactionManager(dataSourceTransactionManager,
+                transactionDefinition,
+                transactionRestServiceConfig);
     }
 }
