@@ -5,7 +5,7 @@
 
     <groupId>io.github.yunbamboos</groupId>
     <artifactId>yunbamboos</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <description>interface rest service</description>
