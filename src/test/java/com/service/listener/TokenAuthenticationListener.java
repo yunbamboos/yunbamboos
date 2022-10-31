@@ -35,6 +35,9 @@ public class TokenAuthenticationListener implements AuthenticationListener {
         if(StringUtils.isEmpty(tokenId)){
             tokenId = request.getParameter("token");
         }
+        if(StringUtils.isEmpty(tokenId)){
+            return false;
+        }
         Optional<Token> optional = tokenCache.get(tokenId);
         if(optional.isPresent()){
             Token token = optional.get();
