@@ -37,7 +37,7 @@ public class UserConfigServiceImpl implements IUserConfigService {
         QueryCurLoginUserConfigOutDTO out = new QueryCurLoginUserConfigOutDTO();
         int userId = SessionContext.getInt("user_id");
         List<UserConfig> userConfigList = userConfigMapper.queryByUserId(userId);
-
+        out.setUserConfigList(userConfigList);
         return out;
     }
 }

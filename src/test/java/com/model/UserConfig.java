@@ -13,22 +13,18 @@ public class UserConfig implements Model {
     /** 用户ID(user_id) */
     @ParamDesc(name = "user_id", zn = "用户ID", isNull = true, type = ParamType.Integer, demo = "1")
     private int userId;
-    /** 配置group(group) */
-    @ParamDesc(name = "group", zn = "配置group", isNull = true, type = ParamType.String, demo = "1")
-    private String group;
-    /** 配置key(key) */
-    @ParamDesc(name = "key", zn = "配置key", isNull = true, type = ParamType.String, demo = "1")
-    private String key;
-    /** 配置值(value) */
-    @ParamDesc(name = "value", zn = "配置值", isNull = true, type = ParamType.String, demo = "1")
+    /** 配置属性(attr) */
+    @ParamDesc(name = "attr", zn = "配置属性", isNull = true, type = ParamType.String, demo = "attr")
+    private String attr;
+    /** 配置属性值(value) */
+    @ParamDesc(name = "value", zn = "配置属性值", isNull = true, type = ParamType.String, demo = "value")
     private String value;
 
     @Override
     public JSONObject encode() {
         JSONObject json = new JSONObject();
         json.put("user_id", userId);
-        json.put("group", group);
-        json.put("key", key);
+        json.put("attr", attr);
         json.put("value", value);
         return json;
     }
@@ -36,8 +32,7 @@ public class UserConfig implements Model {
     @Override
     public void decode(JSONObject json){
         if(json.containsKey("user_id")) this.userId = json.getInteger("user_id");
-        if(json.containsKey("group")) this.group = json.getString("group");
-        if(json.containsKey("key")) this.key = json.getString("key");
+        if(json.containsKey("attr")) this.attr = json.getString("attr");
         if(json.containsKey("value")) this.value = json.getString("value");
     }
 
@@ -49,20 +44,12 @@ public class UserConfig implements Model {
         this.userId = userId;
     }
 
-    public String getGroup() {
-        return group;
+    public String getAttr() {
+        return attr;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
+    public void setAttr(String attr) {
+        this.attr = attr;
     }
 
     public String getValue() {
