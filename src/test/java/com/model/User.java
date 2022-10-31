@@ -10,7 +10,7 @@ import io.github.yunbamboos.util.DateUtils;
 import java.time.LocalDateTime;
 
  /**
- * User(用户表)
+ * user(用户表)
  */
 public class User implements Model {
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.MenuMapper">
+
+    <resultMap type="com.model.Menu" id="result">
+        <id property="menuId" column="menu_id"/>
+        <result property="name" column="name"/>
+        <result property="path" column="path"/>
+        <result property="component" column="component"/>
+        <result property="title" column="title"/>
+        <result property="link" column="link"/>
+        <result property="hide" column="hide"/>
+        <result property="cache" column="cache"/>
+        <result property="iframe" column="iframe"/>
+        <result property="icon" column="icon"/>
+        <result property="parentMenuId" column="parent_menu_id"/>
+    </resultMap>
+
+    <parameterMap type="com.model.Menu" id="parameter">
+        <parameter property="menuId" resultMap="result"/>
+        <parameter property="name" resultMap="result"/>
+        <parameter property="path" resultMap="result"/>
+        <parameter property="component" resultMap="result"/>
+        <parameter property="title" resultMap="result"/>
+        <parameter property="link" resultMap="result"/>
+        <parameter property="hide" resultMap="result"/>
+        <parameter property="cache" resultMap="result"/>
+        <parameter property="iframe" resultMap="result"/>
+        <parameter property="icon" resultMap="result"/>
+        <parameter property="parentMenuId" resultMap="result"/>
+    </parameterMap>
+
+    <select id="queryAll" resultMap="result">
+        select menu_id,
+               name,
+               path,
+               component,
+               title,
+               link,
+               hide,
+               cache,
+               iframe,
+               icon,
+               parent_menu_id
+        from menu
+    </select>
+
+</mapper>

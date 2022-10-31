@@ -14,6 +14,10 @@ public enum ParamType {
      */
     Float("float"),
 
+    Boolean("boolean"),
+
+    List("list"),
+
     Object("object"),
     ;
 
