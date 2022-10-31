@@ -96,7 +96,8 @@ public class UserServiceImpl implements IUserService {
             url = "/user/update",
             in = UpdateUserInDTO.class,
             out = UpdateUserOutDTO.class,
-            name = "更新用户信息"
+            name = "更新用户信息",
+            transaction = Transaction.modify
     )
     @Override
     public UpdateUserOutDTO update(UpdateUserInDTO in) {
@@ -109,7 +110,8 @@ public class UserServiceImpl implements IUserService {
             url = "/user/del",
             in = DelUserInDTO.class,
             out = DelUserOutDTO.class,
-            name = "删除用户接口"
+            name = "删除用户接口",
+            transaction = Transaction.modify
     )
     @Override
     public DelUserOutDTO del(DelUserInDTO in) {

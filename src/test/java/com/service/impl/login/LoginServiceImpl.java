@@ -44,7 +44,6 @@ public class LoginServiceImpl implements ILoginService {
             Token token = new Token();
             token.set("user_id", user.getUserId());
             token.set("role_id", user.getRoleId());
-            token.set("image_id", user.getImageId());
             token.createToken();
             out.setToken(token);
         }

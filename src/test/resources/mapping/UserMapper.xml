@@ -8,7 +8,6 @@
         <result property="loginName" column="login_name"/>
         <result property="password" column="password"/>
         <result property="roleId" column="role_id"/>
-        <result property="imageId" column="image_id"/>
         <result property="userState" column="user_state"/>
         <result property="createTime" column="create_time"/>
         <result property="doubanUserId" column="douban_user_id"/>
@@ -17,7 +16,7 @@
     <!-- 通过主键查询单条数据 -->
     <select id="queryByPrimaryKey" resultMap="UserMap">
         select
-            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+            user_id, nick_name, login_name, password, role_id, user_state, create_time, douban_user_id
         from user
         where 
              user_id = #{user_id}
@@ -26,7 +25,7 @@
     <!--通过条件分页查询指定行数据-->
     <select id="queryByPage" resultMap="UserMap">
         select
-            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+            user_id, nick_name, login_name, password, role_id, user_state, create_time, douban_user_id
         from user
         <where>
             <if test="page.conditions.user_id != null and page.conditions.user_id != ''">
@@ -43,9 +42,6 @@
             </if>
             <if test="page.conditions.role_id != null and page.conditions.role_id != ''">
                 and role_id = #{page.conditions.role_id}
-            </if>
-            <if test="page.conditions.image_id != null and page.conditions.image_id != ''">
-                and image_id = #{page.conditions.image_id}
             </if>
             <if test="page.conditions.user_state != null and page.conditions.user_state != ''">
                 and user_state = #{page.conditions.user_state}
@@ -81,9 +77,6 @@
             <if test="page.conditions.role_id != null and page.conditions.role_id != ''">
                 and role_id = #{page.conditions.role_id}
             </if>
-            <if test="page.conditions.image_id != null and page.conditions.image_id != ''">
-                and image_id = #{page.conditions.image_id}
-            </if>
             <if test="page.conditions.user_state != null and page.conditions.user_state != ''">
                 and user_state = #{page.conditions.user_state}
             </if>
@@ -98,8 +91,8 @@
     
     <!--新增数据-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
-        insert into user(user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id)
-        values (#{userId}, #{nickName}, #{loginName}, #{password}, #{roleId}, #{imageId}, #{userState}, #{createTime}, #{doubanUserId})
+        insert into user(user_id, nick_name, login_name, password, role_id, user_state, create_time, douban_user_id)
+        values (#{userId}, #{nickName}, #{loginName}, #{password}, #{roleId}, #{userState}, #{createTime}, #{doubanUserId})
     </insert>
     
     <!-- 更新数据 -->
@@ -114,9 +107,6 @@
             </if>
             <if test="roleId != null and roleId != ''">
                 role_id = #{roleId},
-            </if>
-            <if test="imageId != null and imageId != ''">
-                image_id = #{imageId},
             </if>
             <if test="userState != null and userState != ''">
                 user_state = #{userState},
@@ -134,7 +124,7 @@
     <!--登录调用-->
     <select id="queryByLoginNameAndPassword" resultMap="UserMap">
         select
-            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+            user_id, nick_name, login_name, password, role_id, user_state, create_time, douban_user_id
         from user
         where
             login_name = #{login_name} and password = #{password}
@@ -143,7 +133,7 @@
     <!--登录调用-->
     <select id="queryByLoginName" resultMap="UserMap">
         select
-            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+            user_id, nick_name, login_name, password, role_id, user_state, create_time, douban_user_id
         from user
         where
             login_name = #{login_name}
@@ -159,7 +149,7 @@
     <!--通过豆瓣用户ID(md5)查询用户信息-->
     <select id="queryByDouBanUserID" resultMap="UserMap">
         select
-            user_id, nick_name, login_name, password, role_id, image_id, user_state, create_time, douban_user_id
+            user_id, nick_name, login_name, password, role_id, user_state, create_time, douban_user_id
         from user
         where
             douban_user_id = #{douban_user_id}

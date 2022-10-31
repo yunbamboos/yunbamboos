@@ -29,9 +29,6 @@ public class User implements Model {
     /** 角色ID(role_id) */
     @ParamDesc(name = "role_id", zn = "角色ID", isNull = true, type = ParamType.Integer, demo = "1")
     private int roleId;
-    /** 图像ID(image_id) */
-    @ParamDesc(name = "image_id", zn = "图像ID", type = ParamType.Integer, demo = "1")
-    private int imageId;
     /** 用户状态(user_state) */
     @ParamDesc(name = "user_state", zn = "用户状态", isNull = true, type = ParamType.Integer, demo = "1")
     private int userState;
@@ -48,7 +45,7 @@ public class User implements Model {
         json.put("user_id", userId);
         json.put("nick_name", nickName);
         json.put("login_name", loginName);
-        json.put("image_id", imageId);
+        json.put("role_id", roleId);
         json.put("user_state", userState);
         json.put("create_time", DateUtils.parseDateToStr(createTime, DateConst.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS_SSS));
         json.put("douban_user_id", doubanUserId);
@@ -65,11 +62,6 @@ public class User implements Model {
             this.roleId = json.getInteger("role_id");
         } else {
             this.roleId = 1;
-        }
-        if(json.containsKey("image_id")) {
-            this.imageId = json.getInteger("image_id");
-        } else {
-            this.imageId = 0;
         }
         if(json.containsKey("user_state")) {
             this.userState = json.getInteger("user_state");
@@ -122,14 +114,6 @@ public class User implements Model {
     /** 角色ID(role_id) */
     public void setRoleId(int roleId){
         this.roleId=roleId;
-    }
-    /** 图像ID(image_id) */
-    public int getImageId(){
-        return this.imageId;
-    }
-    /** 图像ID(image_id) */
-    public void setImageId(int imageId){
-        this.imageId=imageId;
     }
     /** 用户状态(user_state) */
     public int getUserState(){
