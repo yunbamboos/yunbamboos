@@ -27,7 +27,7 @@ public class UserConfigServiceImpl implements IUserConfigService {
 
     @RestServiceType(
             method = RequestMethod.POST,
-            url = "/user/queryCurLoginUserConfig",
+            url = "/user-config/queryCurLoginUserConfig",
             in = QueryCurLoginUserConfigInDTO.class,
             out = QueryCurLoginUserConfigOutDTO.class,
             name = "查询当前登录用户配置接口"

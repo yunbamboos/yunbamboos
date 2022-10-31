@@ -28,7 +28,7 @@ public class UserImageServiceImpl implements IUserImageService {
 
     @RestServiceType(
             method = RequestMethod.POST,
-            url = "/user/queryUserImageBase64",
+            url = "/user-image/queryUserImageBase64",
             in = QueryUserImageBase64InDTO.class,
             out = QueryUserImageBase64OutDTO.class,
             name = "查询用户头像(base64)接口"
@@ -43,7 +43,7 @@ public class UserImageServiceImpl implements IUserImageService {
 
     @RestServiceType(
             method = RequestMethod.GET,
-            url = "/user/queryUserImage",
+            url = "/user-image/queryUserImage",
             in = QueryUserImageInDTO.class,
             out = QueryUserImageOutDTO.class,
             name = "查询用户头像接口"
