@@ -28,9 +28,8 @@ public class RequestToInDTOFilter implements IFilter {
         InDTO in = create(restService.getIn()).orElseThrow(() -> {
             throw new AppException("request to dto fail");
         });
-        String body = exchange.getAttribute(REQUEST_BODY_ATTR);
-        JSONObject json = JSON.parseObject(body);
-        in.decode(json);
+        JSONObject body = exchange.getAttribute(REQUEST_BODY_ATTR);
+        in.decode(body);
         exchange.getAttributes().put(IN_DTO_ATTR, in);
         chain.filter(exchange);
     }

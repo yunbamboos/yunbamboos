@@ -1,10 +1,14 @@
 package io.github.yunbamboos.filter;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.github.yunbamboos.constant.FilterConst;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Optional;
 
 import static io.github.yunbamboos.constant.FilterExchangeConst.REQUEST_BODY_ATTR;
@@ -32,11 +36,18 @@ public class ReadRequestFilter implements IFilter {
         return FilterConst.READ_REQUEST_ORDER;
     }
 
-    private Optional<String> readGet(HttpServletRequest request) {
-        return Optional.ofNullable(request.getParameter("json"));
+    private Optional<JSONObject> readGet(HttpServletRequest request) {
+        JSONObject json = new JSONObject();
+        Iterator<String> it =  request.getParameterNames().asIterator();
+        while (it.hasNext()){
+            String param = it.next();
+            String value = request.getParameter(param);
+            json.put(param, value);
+        }
+        return Optional.of(json);
     }
 
-    private Optional<String> readPost(HttpServletRequest request) {
+    private Optional<JSONObject> readPost(HttpServletRequest request) {
         StringBuilder data = new StringBuilder();
         String line;
         BufferedReader reader;
@@ -48,6 +59,9 @@ public class ReadRequestFilter implements IFilter {
         } catch (IOException e) {
             return Optional.empty();
         }
-        return Optional.of(data.toString());
+        if(data.length()>1){
+            return Optional.of(JSON.parseObject(data.toString()));
+        }
+        return Optional.of(new JSONObject());
     }
 }

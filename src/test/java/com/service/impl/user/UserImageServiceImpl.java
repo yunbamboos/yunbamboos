@@ -42,7 +42,7 @@ public class UserImageServiceImpl implements IUserImageService {
     }
 
     @RestServiceType(
-            method = RequestMethod.POST,
+            method = RequestMethod.GET,
             url = "/user/queryUserImage",
             in = QueryUserImageInDTO.class,
             out = QueryUserImageOutDTO.class,

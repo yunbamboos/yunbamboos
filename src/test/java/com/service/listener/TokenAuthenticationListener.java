@@ -32,6 +32,9 @@ public class TokenAuthenticationListener implements AuthenticationListener {
     public boolean auth(AuthenticationEvent event) {
         HttpServletRequest request = event.getRequest();
         String tokenId = request.getHeader("token");
+        if(StringUtils.isEmpty(tokenId)){
+            tokenId = request.getParameter("token");
+        }
         Optional<Token> optional = tokenCache.get(tokenId);
         if(optional.isPresent()){
             Token token = optional.get();
