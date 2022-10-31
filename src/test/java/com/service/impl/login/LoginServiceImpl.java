@@ -5,6 +5,7 @@ import com.model.User;
 import com.service.dto.login.LoginInDTO;
 import com.service.dto.login.LoginOutDTO;
 import com.service.inter.ILoginService;
+import com.token.TokenCache;
 import io.github.yunbamboos.exception.AppException;
 import io.github.yunbamboos.model.Token;
 import io.github.yunbamboos.rest.anno.RestServiceType;
@@ -24,6 +25,8 @@ public class LoginServiceImpl implements ILoginService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private TokenCache tokenCache;
 
     @RestServiceType(
             method = RequestMethod.POST,
@@ -47,6 +50,7 @@ public class LoginServiceImpl implements ILoginService {
             token.set("user_id", user.getUserId());
             token.set("role_id", user.getRoleId());
             token.createToken();
+            tokenCache.add(token);
             out.setToken(token);
         }
         return out;
