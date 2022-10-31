@@ -33,7 +33,7 @@ import java.util.List;
 @Import({
         SpringBeanUtils.class, // 获取bean工具
         RestServiceConfig.class, // 引入rest服务配置
-        TransactionManagerConfig.class
+        TransactionManagerConfig.class,
 })
 @ComponentScan(basePackageClasses = {RestDispatcherServlet.class})
 public class Application {
@@ -69,7 +69,7 @@ public class Application {
         System.arraycopy(primarySources, 0, sources, 0, primarySources.length);
         sources[primarySources.length] = Application.class;
         SpringApplication app = new SpringApplication(sources);
-        this.addStartListener(event -> TokenUtils.createToken(new DefaultClaims(), System.currentTimeMillis())); // 初始化token 模块
+        this.addStartListener(event -> TokenUtils.createToken(new DefaultClaims(), System.currentTimeMillis(), 1000)); // 初始化token 模块
         // 扫描 restService 的所有服务
         this.addStartListener(new ScannerRestServerListener());
         this.addStartListener(new PrintSystemEnvironmentListener());

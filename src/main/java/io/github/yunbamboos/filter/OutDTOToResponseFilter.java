@@ -5,6 +5,7 @@ import io.github.yunbamboos.constant.FilterConst;
 import io.github.yunbamboos.dto.out.OutDTO;
 import io.github.yunbamboos.exception.AppException;
 import io.github.yunbamboos.exception.ErrorCode;
+import io.github.yunbamboos.rest.converter.ByteHttpMessageConverter;
 import io.github.yunbamboos.rest.converter.JSONHttpMessageConverter;
 import io.github.yunbamboos.rest.http.RestHttpOutputMessage;
 
@@ -31,6 +32,11 @@ public class OutDTOToResponseFilter implements IFilter {
             exchange.getAttributes().put(REST_HTTP_OUTPUT_ATTR, new RestHttpOutputMessage(response));
             exchange.getAttributes().put(OUT_CONVERTER_ATTR, new JSONHttpMessageConverter());
             response.setContentType(ContentType.APPLICATION_JSON.getContent());
+        }
+        if(ContentType.APPLICATION_IMAGE == out.getContentType()){
+            exchange.getAttributes().put(REST_HTTP_OUTPUT_ATTR, new RestHttpOutputMessage(response));
+            exchange.getAttributes().put(OUT_CONVERTER_ATTR, new ByteHttpMessageConverter());
+            response.setContentType(ContentType.APPLICATION_IMAGE.getContent());
         }
         chain.filter(exchange);
     }

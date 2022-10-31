@@ -115,6 +115,7 @@ public class UserServiceImpl implements IUserService {
     )
     @Override
     public DelUserOutDTO del(DelUserInDTO in) {
+        userMapper.deleteByPrimaryKey(in.getUserId());
         return new DelUserOutDTO();
     }
 }

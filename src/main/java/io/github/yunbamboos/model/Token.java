@@ -10,38 +10,54 @@ import io.jsonwebtoken.impl.DefaultClaims;
 
 public class Token implements Model {
 
+    private static final long ACCOUNT_EXPIRE_TIME = 60*60*1000L;
+
     private final transient Claims claims;
 
-    /**账户token*/
-    @ParamDesc(name = "account_token", zn = "账户token", isNull = true, type = ParamType.String)
+    @ParamDesc(name = "token_id", zn = "token_id", isNull = true, type = ParamType.String)
+    private String tokenId;
+    // 当前token创建时间
+    private long createTime;
+    // 当前token
     private String accountToken;
-    /**刷新账户token*/
-    @ParamDesc(name = "refresh_token", zn = "刷新账户token", isNull = true, type = ParamType.String)
-    private String refreshToken;
 
-    public Token(){
+    public Token() {
         this.claims = new DefaultClaims();
     }
 
-    public void set(String key, Object value){
+    public void set(String key, Object value) {
         claims.put(key, String.valueOf(value));
     }
 
-    public void createToken(){
-        try{
-            accountToken = TokenUtils.createToken(claims,TokenUtils.ACCOUNT_EXPIRE_TIME);
-            refreshToken = TokenUtils.createToken(claims,TokenUtils.REFRESH_EXPIRE_TIME);
-        }catch (Exception e){
+    public void createToken() {
+        try {
+            this.createTime = System.currentTimeMillis();
+            this.accountToken = TokenUtils.createToken(claims, createTime, ACCOUNT_EXPIRE_TIME);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isExpire() {
+        return (System.currentTimeMillis() - createTime) > ACCOUNT_EXPIRE_TIME;
     }
 
     @Override
     public JSONObject encode() {
         JSONObject json = new JSONObject();
-        json.put("account_token", accountToken);
-        json.put("refresh_token", refreshToken);
+        json.put("token_id", tokenId);
         return json;
     }
 
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
+    }
+
+    public String getAccountToken() {
+        return accountToken;
+    }
 }

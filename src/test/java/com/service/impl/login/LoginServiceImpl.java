@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * 登录相关接口实现
@@ -42,6 +43,7 @@ public class LoginServiceImpl implements ILoginService {
             throw new AppException("当前用户状态不正常，请联系管理员");
         } else {
             Token token = new Token();
+            token.setTokenId(UUID.randomUUID().toString());
             token.set("user_id", user.getUserId());
             token.set("role_id", user.getRoleId());
             token.createToken();

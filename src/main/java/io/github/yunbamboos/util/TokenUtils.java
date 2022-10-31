@@ -22,10 +22,6 @@ public class TokenUtils {
     private static final String ID = UUID.randomUUID().toString();
     // 加密密文，私钥
     private static final String SECRET = "yun";
-    // 过期时间，单位毫秒
-    public static final int ACCOUNT_EXPIRE_TIME = 60 * 60 * 1000;
-
-    public static final int REFRESH_EXPIRE_TIME = 65 * 60 * 1000;
 
     // Token签发者
     private static final String ISSUER = "yun";
@@ -44,10 +40,8 @@ public class TokenUtils {
     /**
      * 创建Token
      */
-    public static String createToken(Claims claims, long expireTime) {
+    public static String createToken(Claims claims, long nowTime, long expireTime) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        // 生成Token的时间
-        long nowTime = System.currentTimeMillis();
         Date issuedAt = new Date(nowTime);
         // 生成签名的时候使用的秘钥secret，切记这个秘钥不能外露，是你服务端的私钥，在任何场景都不应该流露出去，一旦客户端得知这个secret，那就意味着客户端是可以自我签发Token的
         SecretKey key = generalKey();

@@ -23,6 +23,10 @@ public abstract class OutDTO implements DTO {
         this.contentType = ContentType.APPLICATION_JSON;
     }
 
+    protected OutDTO(ContentType contentType){
+        this.contentType = contentType;
+    }
+
     @Override
     public final JSONObject encode(){
         JSONObject json = new JSONObject();
@@ -32,29 +36,35 @@ public abstract class OutDTO implements DTO {
         return json;
     }
 
-    public abstract JSONObject encodeData();
+    public JSONObject encodeData(){
+        return new JSONObject();
+    }
 
-    public int getCode() {
+    public byte[] encodeBytes(){
+        return new byte[0];
+    }
+
+    public final int getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public final void setCode(int code) {
         this.code = code;
     }
 
-    public String getMsg() {
+    public final String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public final void setMsg(String msg) {
         this.msg = msg;
     }
 
-    public ContentType getContentType() {
+    public final ContentType getContentType() {
         return contentType;
     }
 
-    public void setContentType(ContentType contentType) {
+    public final void setContentType(ContentType contentType) {
         this.contentType = contentType;
     }
 }

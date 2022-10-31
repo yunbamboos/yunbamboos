@@ -17,7 +17,16 @@ public interface DTO extends Serializable {
         return new JSONObject();
     }
 
+    default byte[] encodeBytes(){
+        return new byte[0];
+    }
+
     default String toJSON(){
         return encode().toJSONString();
     }
+
+    default byte[] toBytes(){
+        return encodeBytes();
+    }
+
 }

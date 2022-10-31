@@ -1,5 +1,6 @@
 package com;
 
+import com.config.CacheConfig;
 import io.github.yunbamboos.application.Application;
 import io.github.yunbamboos.rest.anno.RestServiceScan;
 import org.mybatis.spring.annotation.MapperScan;
@@ -8,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+
 /**
  * 服务启动类
  * */
@@ -15,6 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan("com.mapper")
 @ComponentScan(basePackages = {"com.mapper", "com.service"})
 @RestServiceScan({"com.service.inter"})
+@Import(CacheConfig.class)
 public class MovieService {
 
     private static final Logger log = LoggerFactory.getLogger(MovieService.class);
