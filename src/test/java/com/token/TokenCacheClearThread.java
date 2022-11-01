@@ -13,8 +13,11 @@ public record TokenCacheClearThread(TokenCache tokenCache) implements Runnable {
     public void run() {
         AtomicInteger count = new AtomicInteger();
         tokenCache.getCache().entrySet().removeIf(entry -> {
-            count.getAndIncrement();
-            return entry.getValue().isExpire();
+            boolean expire = entry.getValue().isExpire();
+            if(expire){
+                count.getAndIncrement();
+            }
+            return expire;
         });
         if (count.get() > 0) {
             log.info("clear expire token {}", count.get());
